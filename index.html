@@ -1,56 +1,145 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Gestión - Restaurante</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://kit.fontawesome.com/your-code.js" crossorigin="anonymous"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sazón — Sistema de Restaurante</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 </head>
 <body>
 
-    <header>
-        <h1>Restaurante Gestión Pro</h1>
-        <p>Panel de Administración Principal</p>
-    </header>
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="index.html" class="navbar-brand">SAZÓN<span>alta cocina peruana</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html"><span class="nav-icon">⊞</span><span>Dashboard</span></a></li>
+      <li><a href="platos.html"><span class="nav-icon">🍽</span><span>Platos</span></a></li>
+      <li><a href="pedidos.html"><span class="nav-icon">📋</span><span>Pedidos</span></a></li>
+      <li><a href="cocina.html"><span class="nav-icon">👨‍🍳</span><span>Cocina</span></a></li>
+      <li><a href="facturacion.html"><span class="nav-icon">💳</span><span>Facturación</span></a></li>
+    </ul>
+  </nav>
 
-    <main class="container">
-        <div class="grid-menu">
-            
-            <a href="modulos/platos.html" class="card">
-                <div class="icon">🍽️</div>
-                <h2>Módulo 1</h2>
-                <h3>Registro de Platos</h3>
-                <p>Configura el menú, precios, alérgenos y disponibilidad.</p>
-            </a>
+  <div class="page-wrapper">
+    <div class="container">
 
-            <a href="modulos/pedidos.html" class="card">
-                <div class="icon">📝</div>
-                <h2>Módulo 2</h2>
-                <h3>Registro de Pedidos</h3>
-                <p>Gestión de mesas, mozos y toma de pedidos en tiempo real.</p>
-            </a>
-
-            <a href="modulos/cocina.html" class="card">
-                <div class="icon">👨‍🍳</div>
-                <h2>Módulo 3</h2>
-                <h3>Tablero de Cocina</h3>
-                <p>Control de preparación, tiempos y prioridades.</p>
-            </a>
-
-            <a href="modulos/facturacion.html" class="card">
-                <div class="icon">💰</div>
-                <h2>Módulo 4</h2>
-                <h3>Facturación</h3>
-                <p>Cierre de cuenta, métodos de pago y emisión de tickets.</p>
-            </a>
-
+      <!-- HERO -->
+      <div class="page-header animate__animated animate__fadeInDown">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;flex-wrap:wrap;gap:1rem">
+          <div>
+            <div style="font-size:0.8rem;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:0.5rem">Centro de Control</div>
+            <h1 class="display-title">Bienvenido a<br><span style="color:var(--gold-pale)">Sazón</span></h1>
+            <div class="gold-line"></div>
+            <p class="subtitle">Gestiona tu restaurante con elegancia y precisión</p>
+          </div>
+          <div style="text-align:right;padding-top:1rem">
+            <div style="font-size:0.78rem;color:var(--text-muted);letter-spacing:1px">HOY</div>
+            <div id="fecha-actual" style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--cream-dim)"></div>
+            <div id="hora-actual" style="font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.4rem;color:var(--gold-pale)"></div>
+          </div>
         </div>
-    </main>
+      </div>
 
-    <footer>
-        <p>&copy; 2026 Sistema de Gestión de Restaurantes - Todos los derechos reservados.</p>
-    </footer>
+      <!-- STAT STRIP -->
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;margin-bottom:2.5rem">
+        <div class="glass-card animate-in animate-delay-1" style="padding:1rem 1.25rem">
+          <div style="font-size:0.72rem;letter-spacing:1px;color:var(--text-muted);text-transform:uppercase">Platos en Menú</div>
+          <div style="font-family:'Playfair Display',serif;font-size:2rem;color:var(--gold-pale);margin-top:0.2rem" id="count-platos">—</div>
+        </div>
+        <div class="glass-card animate-in animate-delay-2" style="padding:1rem 1.25rem">
+          <div style="font-size:0.72rem;letter-spacing:1px;color:var(--text-muted);text-transform:uppercase">Pedidos Activos</div>
+          <div style="font-family:'Playfair Display',serif;font-size:2rem;color:var(--gold-pale);margin-top:0.2rem" id="count-pedidos">—</div>
+        </div>
+        <div class="glass-card animate-in animate-delay-3" style="padding:1rem 1.25rem">
+          <div style="font-size:0.72rem;letter-spacing:1px;color:var(--text-muted);text-transform:uppercase">En Cocina</div>
+          <div style="font-family:'Playfair Display',serif;font-size:2rem;color:var(--gold-pale);margin-top:0.2rem" id="count-cocina">—</div>
+        </div>
+        <div class="glass-card animate-in animate-delay-4" style="padding:1rem 1.25rem">
+          <div style="font-size:0.72rem;letter-spacing:1px;color:var(--text-muted);text-transform:uppercase">Cuentas Cerradas</div>
+          <div style="font-family:'Playfair Display',serif;font-size:2rem;color:var(--gold-pale);margin-top:0.2rem" id="count-facturacion">—</div>
+        </div>
+      </div>
 
+      <!-- MAIN CARDS GRID -->
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem;margin-bottom:3rem">
+
+        <a href="platos.html" class="dash-card animate__animated animate__fadeInUp" style="animation-delay:0.1s">
+          <div>
+            <div class="dash-card-icon">🍽</div>
+            <div class="dash-card-title">Gestión de Platos</div>
+            <p class="dash-card-desc">Registro y administración del menú. CRUD completo con validaciones, categorías y control de alérgenos.</p>
+          </div>
+          <div class="dash-card-arrow">Administrar <span>→</span></div>
+          <div class="dash-card-count">01</div>
+        </a>
+
+        <a href="pedidos.html" class="dash-card animate__animated animate__fadeInUp" style="animation-delay:0.2s">
+          <div>
+            <div class="dash-card-icon">📋</div>
+            <div class="dash-card-title">Toma de Pedidos</div>
+            <p class="dash-card-desc">Gestión de pedidos por mesa y mozo. Prioridades, observaciones especiales y cálculo en tiempo real.</p>
+          </div>
+          <div class="dash-card-arrow">Administrar <span>→</span></div>
+          <div class="dash-card-count">02</div>
+        </a>
+
+        <a href="cocina.html" class="dash-card animate__animated animate__fadeInUp" style="animation-delay:0.3s">
+          <div>
+            <div class="dash-card-icon">👨‍🍳</div>
+            <div class="dash-card-title">Tablero de Cocina</div>
+            <p class="dash-card-desc">Control de producción en tiempo real. Estados por plato, alertas de alérgenos y pedidos urgentes.</p>
+          </div>
+          <div class="dash-card-arrow">Ver tablero <span>→</span></div>
+          <div class="dash-card-count">03</div>
+        </a>
+
+        <a href="facturacion.html" class="dash-card animate__animated animate__fadeInUp" style="animation-delay:0.4s">
+          <div>
+            <div class="dash-card-icon">💳</div>
+            <div class="dash-card-title">Facturación</div>
+            <p class="dash-card-desc">Cierre de cuenta, cálculo de IGV, descuentos con justificación y registro de método de pago.</p>
+          </div>
+          <div class="dash-card-arrow">Ir a caja <span>→</span></div>
+          <div class="dash-card-count">04</div>
+        </a>
+
+      </div>
+
+      <!-- FOOTER -->
+      <div style="text-align:center;padding:2rem 0;border-top:1px solid var(--border)">
+        <div style="font-family:'Cormorant Garamond',serif;font-style:italic;color:var(--text-muted);font-size:0.95rem">
+          Sazón — Sistema de Gestión de Restaurante &nbsp;·&nbsp; Alta Cocina Peruana
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="toast-container"></div>
+
+  <script src="utils.js"></script>
+  <script>
+    // Dashboard stats
+    (function initDashboard() {
+      const platos   = Storage.get('sazon_platos', []);
+      const pedidos  = Storage.get('sazon_pedidos', []);
+      const facturas = Storage.get('sazon_facturas', []);
+      const set = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val; };
+      set('count-platos',      platos.length);
+      set('count-pedidos',     pedidos.filter(p => p.estado !== 'cancelado').length);
+      set('count-cocina',      pedidos.filter(p => ['enviado','en preparacion','listo para servir'].includes(p.estado)).length);
+      set('count-facturacion', facturas.length);
+    })();
+
+    // Clock
+    function updateClock() {
+      const now = new Date();
+      document.getElementById('fecha-actual').textContent = now.toLocaleDateString('es-PE', { weekday:'long', day:'numeric', month:'long' });
+      document.getElementById('hora-actual').textContent  = now.toLocaleTimeString('es-PE', { hour:'2-digit', minute:'2-digit' });
+    }
+    updateClock();
+    setInterval(updateClock, 1000);
+  </script>
 </body>
 </html>
