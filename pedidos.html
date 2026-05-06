@@ -5,7 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sazón — Toma de Pedidos</title>
   <link rel="stylesheet" href="style.css">
+  <!-- Carga de fuentes y animaciones -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
 
@@ -24,17 +26,19 @@
   <div class="page-wrapper">
     <div class="container">
 
-      <!-- HEADER -->
+      <!-- HEADER - Commit 1: Mejora de identidad visual -->
       <div class="page-header animate__animated animate__fadeInDown">
-        <div style="font-size:0.78rem;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:0.4rem">Módulo 02</div>
-        <h1 class="display-title" style="font-size:clamp(1.6rem,4vw,2.5rem)">Toma de Pedidos</h1>
+        <div style="font-size:0.78rem;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:0.4rem">
+          <i class="fas fa-concierge-bell"></i> Módulo de Operaciones 02
+        </div>
+        <h1 class="display-title" style="font-size:clamp(1.6rem,4vw,2.5rem); text-shadow: 2px 2px 4px rgba(0,0,0,0.3)">Gestión de Comandas</h1>
         <div class="gold-line"></div>
-        <p class="subtitle">Registra pedidos por mesa, mozo y prioridad</p>
+        <p class="subtitle">Registra pedidos por mesa, mozo y prioridad en tiempo real</p>
       </div>
 
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start">
 
-        <!-- LEFT: FORM -->
+        <!-- LEFT: FORM - Commit 2: Validaciones y UX -->
         <div class="animate-in">
           <div class="glass-card-dark" style="margin-bottom:1.5rem">
             <h2 class="section-title">Nuevo Pedido</h2>
@@ -47,13 +51,14 @@
               </div>
               <div class="form-group">
                 <label for="pedido-mozo">Nombre del Mozo <span style="color:var(--gold)">*</span></label>
-                <input type="text" class="form-control" id="pedido-mozo" placeholder="Mín 3 caracteres">
+                <input type="text" class="form-control" id="pedido-mozo" placeholder="Ej. Juan Pérez" maxlength="30">
+                <small style="color:var(--text-muted); font-size: 0.7rem;">Máximo 30 caracteres</small>
                 <div class="input-error" id="pedido-mozo-err"></div>
               </div>
             </div>
 
             <div class="form-group">
-              <label for="pedido-prioridad">Prioridad</label>
+              <label for="pedido-prioridad">Nivel de Prioridad</label>
               <select class="form-control" id="pedido-prioridad">
                 <option value="normal">Normal</option>
                 <option value="alta">Alta</option>
@@ -63,12 +68,12 @@
 
             <div class="form-group" id="justificacion-wrap" style="display:none">
               <label for="pedido-justificacion">Justificación de Urgencia <span style="color:var(--gold)">*</span></label>
-              <textarea class="form-control" id="pedido-justificacion" placeholder="Mínimo 10 caracteres — explica por qué es urgente" style="min-height:70px"></textarea>
+              <textarea class="form-control" id="pedido-justificacion" placeholder="Explica brevemente por qué es urgente (mín. 10 carac.)" style="min-height:70px"></textarea>
               <div class="input-error" id="pedido-just-err"></div>
             </div>
           </div>
 
-          <!-- AGREGAR PLATOS -->
+          <!-- SELECCIÓN DE PLATOS -->
           <div class="glass-card-dark">
             <h3 style="font-family:'Playfair Display',serif;color:var(--gold-pale);margin-bottom:1rem;font-size:1.1rem">Selección de Platos</h3>
 
@@ -84,7 +89,7 @@
             <div class="divider"></div>
 
             <div style="display:flex;justify-content:space-between;align-items:center">
-              <span style="font-size:0.85rem;color:var(--text-muted)">Total del pedido</span>
+              <span style="font-size:0.85rem;color:var(--text-muted)">Total acumulado</span>
               <span id="pedido-total" style="font-family:'Playfair Display',serif;font-size:1.4rem;color:var(--gold-pale)">S/ 0.00</span>
             </div>
 
@@ -94,20 +99,31 @@
           </div>
         </div>
 
-        <!-- RIGHT: LIST -->
+        <!-- RIGHT: LIST - Commit 3: Estado vacío y Refactorización -->
         <div class="animate-in animate-delay-2">
-          <h2 class="section-title">Pedidos Registrados</h2>
-          <div id="pedidos-list"></div>
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem">
+            <h2 class="section-title" style="margin-bottom:0">Pedidos Registrados</h2>
+            <span class="badge" style="background:var(--gold); color:black; padding:2px 8px; border-radius:10px; font-size:0.8rem; font-weight:bold">HOY</span>
+          </div>
+          
+          <div id="pedidos-list" style="min-height: 300px;">
+            <!-- Estado vacío inicial -->
+            <div class="glass-card-dark" style="display: flex; flex-direction: column; justify-content: center; align-items: center; border: 1px dashed var(--gold-pale); opacity: 0.6; padding: 3rem; text-align: center;">
+              <i class="fas fa-clipboard-list" style="font-size: 2rem; color: var(--gold); margin-bottom: 1rem;"></i>
+              <p style="color:var(--text-muted); font-style:italic">No hay pedidos pendientes en este momento.</p>
+            </div>
+          </div>
         </div>
 
-      </div>
+      </div> <!-- Fin Grid -->
 
-    </div>
-  </div>
+    </div> <!-- Fin Container -->
+  </div> <!-- Fin Wrapper -->
 
   <div class="toast-container"></div>
 
-  <script src="utils.js"></script>
-  <script src="pedidos.js"></script>
+  <!-- Scripts - Commit 4: Corrección de rutas y carga asíncrona -->
+  <script src="utils.js" defer></script>
+  <script src="pedidos.js" defer></script>
 </body>
 </html>
