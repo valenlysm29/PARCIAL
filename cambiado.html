@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sazón — Gestión de Platos</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="index.html" class="navbar-brand">SAZÓN<span>alta cocina peruana</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html"><span class="nav-icon">⊞</span><span>Dashboard</span></a></li>
+      <li><a href="platos.html"><span class="nav-icon">🍽</span><span>Platos</span></a></li>
+      <li><a href="pedidos.html"><span class="nav-icon">📋</span><span>Pedidos</span></a></li>
+      <li><a href="cocina.html"><span class="nav-icon">👨‍🍳</span><span>Cocina</span></a></li>
+      <li><a href="facturacion.html"><span class="nav-icon">💳</span><span>Facturación</span></a></li>
+    </ul>
+  </nav>
+
+  <div class="page-wrapper">
+    <div class="container">
+
+      <!-- HEADER -->
+      <div class="page-header animate__animated animate__fadeInDown">
+        <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:1rem">
+          <div>
+            <div style="font-size:0.78rem;letter-spacing:3px;color:var(--gold);text-transform:uppercase;margin-bottom:0.4rem">Módulo 01</div>
+            <h1 class="display-title" style="font-size:clamp(1.6rem,4vw,2.5rem)">Gestión de Platos</h1>
+            <div class="gold-line"></div>
+            <p class="subtitle">Registro y administración del menú · CRUD completo</p>
+          </div>
+          <!-- CAMBIO 1: Atributo title para accesibilidad -->
+          <button class="btn btn-gold btn-lg" id="btn-nuevo-plato" title="Agregar un nuevo plato al menú">
+            <span>+</span> Nuevo Plato
+          </button>
+        </div>
+      </div>
+
+      <!-- FILTERS -->
+      <div class="filter-bar animate-in">
+        <input type="text" class="form-control" id="filter-nombre" placeholder="🔍  Buscar por nombre o código…">
+        <select class="form-control" id="filter-cat" style="max-width:180px">
+          <option value="">Todas las categorías</option>
+          <option value="Entrada">Entrada</option>
+          <option value="Fondo">Fondo</option>
+          <option value="Postre">Postre</option>
+          <option value="Bebida">Bebida</option>
+          <option value="Especial">Especial</option>
+        </select>
+        <select class="form-control" id="filter-estado" style="max-width:150px">
+          <option value="">Todos los estados</option>
+          <option value="activo">Activo</option>
+          <option value="inactivo">Inactivo</option>
+        </select>
+        <span id="platos-count" style="color:var(--text-muted);font-size:0.82rem;white-space:nowrap;align-self:center"></span>
+      </div>
+
+      <!-- TABLE -->
+      <div class="glass-card-dark animate-in" style="padding:0;overflow:hidden">
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Código</th>
+                <th>Nombre / Descripción</th>
+                <th>Categoría</th>
+                <th>Precio</th>
+                <th>T. Prep</th>
+                <!-- CAMBIO 3: Icono de información en Alérgenos -->
+                <th>Alérgenos <span style="cursor:help" title="Información obligatoria para seguridad alimentaria">ⓘ</span></th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="platos-tbody">
+              <tr><td colspan="8"><div class="empty-state"><div class="empty-state-icon">🍽</div><div class="empty-state-text">Cargando platos…</div></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- CAMBIO 2: Sección de Tips informativos -->
+      <div class="glass-card-dark animate__animated animate__fadeInUp" style="margin-top: 2rem; border-left: 4px solid var(--gold);">
+        <p style="font-size: 0.85rem; padding: 1rem;">
+          <strong>💡 Tip de Gestión:</strong> Recuerda que los platos marcados como <em>Inactivos</em> no aparecerán en el módulo de Pedidos ni Cocina.
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MODAL PLATO -->
+  <div class="modal-overlay" id="modal-plato">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 class="modal-title" id="modal-plato-title">Nuevo Plato</h2>
+        <button class="modal-close" data-close-modal="modal-plato">✕</button>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="plato-codigo">Código <span style="color:var(--gold)">*</span></label>
+          <input type="text" class="form-control" id="plato-codigo" placeholder="PL001" maxlength="20">
+          <div class="input-error" id="plato-codigo-err">Código requerido (ej: PL001), sin espacios.</div>
+        </div>
+        <div class="form-group">
+          <label for="plato-categoria">Categoría <span style="color:var(--gold)">*</span></label>
+          <select class="form-control" id="plato-categoria">
+            <option value="">— Seleccionar —</option>
+            <option value="Entrada">Entrada</option>
+            <option value="Fondo">Fondo</option>
+            <option value="Postre">Postre</option>
+            <option value="Bebida">Bebida</option>
+            <option value="Especial">Especial</option>
+          </select>
+          <div class="input-error" id="plato-categoria-err">Selecciona una categoría.</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="plato-nombre">Nombre del Plato <span style="color:var(--gold)">*</span></label>
+        <input type="text" class="form-control" id="plato-nombre" placeholder="Ej: Ceviche Clásico" maxlength="60">
+        <div class="input-error" id="plato-nombre-err">Nombre de 3 a 60 caracteres, no solo números.</div>
+      </div>
+
+      <div class="form-group">
+        <label for="plato-descripcion">Descripción <span style="color:var(--gold)">*</span></label>
+        <textarea class="form-control" id="plato-descripcion" placeholder="Descripción del plato (10–250 caracteres)" maxlength="250"></textarea>
+        <div class="input-error" id="plato-descripcion-err">Descripción de 10 a 250 caracteres.</div>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="plato-precio">Precio (S/) <span style="color:var(--gold)">*</span></label>
+          <input type="number" class="form-control" id="plato-precio" placeholder="0.00" min="0.01" step="0.01">
+          <div class="input-error" id="plato-precio-err">Precio numérico mayor a 0.</div>
+          <!-- CAMBIO 4: Aclaración de impuestos -->
+          <small style="color:var(--text-muted); font-size: 0.7rem;">* Incluye IGV</small>
+        </div>
+        <div class="form-group">
+          <label for="plato-tiempo_prep">Tiempo de Preparación (min) <span style="color:var(--gold)">*</span></label>
+          <input type="number" class="form-control" id="plato-tiempo_prep" placeholder="15" min="1" max="120">
+          <div class="input-error" id="plato-tiempo_prep-err">Tiempo entre 1 y 120 minutos.</div>
+        </div>
+        <div class="form-group">
+          <label for="plato-estado">Estado <span style="color:var(--gold)">*</span></label>
+          <select class="form-control" id="plato-estado">
+            <option value="activo">Activo</option>
+            <option value="inactivo">Inactivo</option>
+          </select>
+          <div class="input-error" id="plato-estado-err">Selecciona un estado.</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Alérgenos</label>
+        <div id="alergenos-wrap" class="checkbox-group"></div>
+      </div>
+
+      <div style="display:flex;gap:0.75rem;justify-content:flex-end;margin-top:1.5rem;padding-top:1.25rem;border-top:1px solid var(--border)">
+        <button class="btn btn-outline" data-close-modal="modal-plato">Cancelar</button>
+        <button class="btn btn-gold" id="btn-save-plato">Guardar Plato</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-container"></div>
+
+  <script src="utils.js"></script>
+  <script src="platos.js"></script>
+</body>
+</html>
