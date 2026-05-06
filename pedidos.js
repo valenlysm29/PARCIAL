@@ -88,6 +88,7 @@
   }
 
   /* ─── VALIDATE ─────────────────────────────────────────────────────────────── */
+  //Verifica que los campos obligatorios del formulario Sazón no estén vacíos //
   function validatePedido() {
     let ok = true;
     const mesa = document.getElementById('pedido-mesa');
